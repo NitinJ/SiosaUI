@@ -3,7 +3,6 @@ import { ConfigsecondaryComponent } from './../configsecondary/configsecondary.c
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
@@ -21,6 +20,7 @@ export class TasksComponent implements OnInit {
   starting: string|null = null;
   task: string|null = null;
   state = 0;
+  rollerConfigJson = {};
 
   rollerFormGroup = new FormGroup({
     rollerConfig: new FormControl('', [Validators.required, jsonValidator])
@@ -36,6 +36,14 @@ export class TasksComponent implements OnInit {
 
   ngOnInit(): void {
     setInterval(() => this.updateTaskStatus(), 500);
+  }
+
+  rollerConfigChange() {
+    if (!this.rollerFormGroup.controls.rollerConfig.valid) {
+      this.rollerConfigJson = {};
+      return;
+    }
+    this.rollerConfigJson = JSON.parse(this.rollerFormGroup.controls.rollerConfig.value);
   }
 
   updateTaskStatus() {

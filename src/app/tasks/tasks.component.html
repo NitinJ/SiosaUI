@@ -1,4 +1,4 @@
-<mat-tab-group animationDuration="0ms">
+<mat-tab-group animationDuration="0ms" backgroundColor="primary">
   <mat-tab label="Tasks">
     <div class="container">
       <div *ngIf="!loading" class="tasks-container">
@@ -36,9 +36,10 @@
             </mat-expansion-panel-header>
 
             <div [formGroup]="rollerFormGroup">
+              <ngx-json-viewer [json]="rollerConfigJson"></ngx-json-viewer>
               <mat-form-field class="rollerconfig-full-width" appearance="fill">
                 <mat-label>Roller config</mat-label>
-                <textarea [formControlName]="'rollerConfig'" matInput required placeholder="Paste the roller config here..."></textarea>
+                <textarea (change)="rollerConfigChange()" [formControlName]="'rollerConfig'" matInput required placeholder="Paste the roller config here..."></textarea>
               </mat-form-field>
             </div>
 
