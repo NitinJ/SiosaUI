@@ -14,6 +14,7 @@ import { MatCard } from '@angular/material/card';
 export class RegisterComponent implements OnInit {
   public data: any = [];
   public error = false;
+  public registerString = 'REGISTER';
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -27,9 +28,11 @@ export class RegisterComponent implements OnInit {
   registerUser(licenseKey: any) {
     const url = this.utils.getServerUrl('/license/register');
     this.error = false;
+    this.registerString = 'REGISTERING...';
     this.http.post(url, {key: licenseKey}).subscribe((res: any) => {
       if (!res.status) {
         this.error = true;
+        this.registerString = 'REGISTER';
         return;
       }
       if (res.details.valid) {

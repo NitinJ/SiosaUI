@@ -100,6 +100,7 @@ export class TasksComponent implements OnInit {
       if (!res.status) {
         this.showError('Couldn\'t start task');
       }
+      this.starting = null;
     }, (err) => {
       this.showError('Couldn\'t start task');
       this.starting = null;

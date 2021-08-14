@@ -10,7 +10,7 @@
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
-      <button (click)="registerUser(userRegister.value)" mat-button>REGISTER</button>
+      <button (click)="registerUser(userRegister.value)" mat-raised-button color="primary" mat-button>{{registerString}}</button>
     </mat-card-actions>
     <mat-error *ngIf="error">Invalid registration key</mat-error>
   </mat-card>

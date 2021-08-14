@@ -104,8 +104,8 @@ export class ConfigsecondaryComponent implements OnInit {
         this.showMessage('Couldn\'t save config');
       }
       // this.setFields(res.details);
-      if (res.details.valid) {
-        this.router.navigateByUrl('/tasks');
+      if (!res.details.valid) {
+        this.router.navigateByUrl('/config');
       } else {
         // Get all requried fields and show config entry box.
         this.setFields(res.details);

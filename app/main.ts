@@ -2,7 +2,8 @@ import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as url from 'url';
-import { ChildProcess, spawn } from 'child_process';
+import { ChildProcess, spawn, exec } from 'child_process';
+var kill  = require('tree-kill');
 
 // Initialize remote module
 require('@electron/remote/main').initialize();
@@ -13,10 +14,17 @@ let siosaBackendChildProcess: ChildProcess = null;
 const args = process.argv.slice(1),
   serve = args.some(val => val === '--serve');
 
+function killBackend() {
+  if (siosaBackendChildProcess) {
+    exec('taskkill /F /IM source.exe /T', () => {});
+    // kill(siosaBackendChildProcess.pid, 'SIGKILL');
+  }
+}
 function spawnBackend() {
-  const siosa = spawn('siosa/siosa.exe', {
+  const siosa = spawn('resources/source.exe', {
       detached: false,
-      windowsHide: true
+      windowsHide: true,
+      stdio: 'ignore'
   });
   siosa.on('error', (err) => {
       console.error('Failed to start siosa.');
@@ -93,9 +101,7 @@ try {
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
-    if (siosaBackendChildProcess) {
-      siosaBackendChildProcess.kill();
-    }
+    killBackend();
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
